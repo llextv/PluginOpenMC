@@ -17,11 +17,15 @@ public class PayCommands {
     public void payCommands(Player player, @Named("joueur") Player target, @Named("montant") int amount) {
         EconomyManager economyManager = AywenCraftPlugin.getInstance().getManagers().getEconomyManager();
         if(!player.equals(target)) {
-            if (economyManager.transferBalance(player, target, amount)) {
-                player.sendMessage("§aVous venez de transférer §e" + amount + "$ §aà §e" + target.getName());
-                target.sendMessage("§aVous venez de recevoir §e" + amount + "$ §ade la part de §e" + player.getName());
-            } else {
-                player.sendMessage("§cVous n'avez pas assez d'argent.");
+            if(amount < 0){
+                if (economyManager.transferBalance(player, target, amount)) {
+                    player.sendMessage("§aVous venez de transférer §e" + amount + "$ §aà §e" + target.getName());
+                    target.sendMessage("§aVous venez de recevoir §e" + amount + "$ §ade la part de §e" + player.getName());
+                } else {
+                    player.sendMessage("§cVous n'avez pas assez d'argent.");
+            }else{
+                player.sendMessage("§cVous ne pouvez pas transferer une valeur negative.")
+            }
             }
         } else {
             player.sendMessage("§cVous ne pouvez pas transférer de l'argent à vous-même.");
